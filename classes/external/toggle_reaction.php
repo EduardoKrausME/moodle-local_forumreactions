@@ -81,11 +81,11 @@ class toggle_reaction extends external_api {
             throw new moodle_exception("postnotavailable", "local_forumreactions");
         }
 
-        reaction_manager::toggle($forum, $posts[$params["postid"]], (int) $USER->id, $params["reaction"]);
+        reaction_manager::toggle($forum, $posts[$params["postid"]], (int)$USER->id, $params["reaction"]);
 
         $summary = reaction_manager::get_summary(
             [$params["postid"] => $posts[$params["postid"]]],
-            (int) $USER->id,
+            (int)$USER->id,
             true
         );
 

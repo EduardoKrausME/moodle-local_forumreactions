@@ -18,17 +18,18 @@
     @template local_forumreactions/reactions
 }}
 <div class="local-forumreactions" data-region="forum-reactions" data-post-id="{{postid}}">
-    <div class="local-forumreactions-list d-flex flex-wrap align-items-center gap-1" role="group" aria-label="{{#str}} reactions, local_forumreactions {{/str}}">
+    <div class="local-forumreactions-list d-flex flex-wrap align-items-center gap-1" role="group"
+         aria-label="{{#str}} reactions, local_forumreactions {{/str}}">
         {{#reactions}}
             <button
-                type="button"
-                class="btn btn-sm local-forumreactions-button {{#mine}}is-selected{{/mine}}"
-                data-action="toggle-reaction"
-                data-reaction="{{key}}"
-                title="{{label}}"
-                aria-label="{{label}}: {{count}}"
-                aria-pressed="{{#mine}}true{{/mine}}{{^mine}}false{{/mine}}"
-                {{^canreact}}disabled{{/canreact}}
+                    type="button"
+                    class="btn btn-sm local-forumreactions-button {{#mine}}is-selected{{/mine}}"
+                    data-action="toggle-reaction"
+                    data-reaction="{{key}}"
+                    title="{{label}}"
+                    aria-label="{{label}}: {{count}}"
+                    aria-pressed="{{#mine}}true{{/mine}}{{^mine}}false{{/mine}}"
+                    {{^canreact}}disabled{{/canreact}}
             >
                 <span class="local-forumreactions-emoji" aria-hidden="true">{{emoji}}</span>
                 <span class="local-forumreactions-count" data-region="reaction-count">{{count}}</span>

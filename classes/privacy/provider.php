@@ -97,7 +97,7 @@ class provider implements
     public static function export_user_data(approved_contextlist $contextlist): void {
         global $DB;
 
-        $userid = (int) $contextlist->get_user()->id;
+        $userid = (int)$contextlist->get_user()->id;
         foreach ($contextlist->get_contexts() as $context) {
             $forumid = self::get_forumid_from_context($context);
             if (!$forumid) {
@@ -116,8 +116,8 @@ class provider implements
             $export = [];
             foreach ($records as $record) {
                 $post = $DB->get_record("forum_posts", ["id" => $record->postid], "id, subject", IGNORE_MISSING);
-                $export[] = (object) [
-                    "postid" => (int) $record->postid,
+                $export[] = (object)[
+                    "postid" => (int)$record->postid,
                     "postsubject" => $post ? $post->subject : "",
                     "reaction" => $record->reaction,
                     "timecreated" => userdate($record->timecreated),
@@ -126,7 +126,7 @@ class provider implements
 
             content_writer::with_context($context)->export_data(
                 [get_string("privacy:export:path", "local_forumreactions")],
-                (object) ["reactions" => $export]
+                (object)["reactions" => $export]
             );
         }
     }
@@ -153,7 +153,7 @@ class provider implements
     public static function delete_data_for_user(approved_contextlist $contextlist): void {
         global $DB;
 
-        $userid = (int) $contextlist->get_user()->id;
+        $userid = (int)$contextlist->get_user()->id;
         foreach ($contextlist->get_contexts() as $context) {
             $forumid = self::get_forumid_from_context($context);
             if ($forumid) {
@@ -224,7 +224,7 @@ class provider implements
                   JOIN {modules} m ON m.id = cm.module
                  WHERE cm.id = :cmid
                    AND m.name = :modname";
-        return (int) $DB->get_field_sql($sql, [
+        return (int)$DB->get_field_sql($sql, [
             "cmid" => $context->instanceid,
             "modname" => "forum",
         ]);

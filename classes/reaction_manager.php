@@ -63,7 +63,7 @@ class reaction_manager {
 
         $result = [];
         foreach ($enabled as $key) {
-            $key = trim((string) $key);
+            $key = trim((string)$key);
             if (!isset(self::REACTIONS[$key])) {
                 continue;
             }
@@ -119,14 +119,14 @@ class reaction_manager {
 
         $discussionids = [];
         foreach ($posts as $post) {
-            $discussionids[(int) $post->discussion] = (int) $post->discussion;
+            $discussionids[(int)$post->discussion] = (int)$post->discussion;
         }
         $discussions = $DB->get_records_list("forum_discussions", "id", array_values($discussionids));
 
         $visible = [];
         foreach ($posts as $post) {
             $discussion = $discussions[$post->discussion] ?? null;
-            if (!$discussion || (int) $discussion->forum !== (int) $forum->id) {
+            if (!$discussion || (int)$discussion->forum !== (int)$forum->id) {
                 continue;
             }
 
@@ -134,7 +134,7 @@ class reaction_manager {
                 continue;
             }
 
-            $visible[(int) $post->id] = $post;
+            $visible[(int)$post->id] = $post;
         }
 
         return $visible;
@@ -166,7 +166,7 @@ class reaction_manager {
               GROUP BY postid, reaction";
         $recordset = $DB->get_recordset_sql($sql, $params);
         foreach ($recordset as $record) {
-            $counts[(int) $record->postid][$record->reaction] = (int) $record->reactioncount;
+            $counts[(int)$record->postid][$record->reaction] = (int)$record->reactioncount;
         }
         $recordset->close();
 
@@ -180,7 +180,7 @@ class reaction_manager {
                        AND userid = :userid";
             $recordset = $DB->get_recordset_sql($sql, $mineparams);
             foreach ($recordset as $record) {
-                $mine[(int) $record->postid][$record->reaction] = true;
+                $mine[(int)$record->postid][$record->reaction] = true;
             }
             $recordset->close();
         }
@@ -200,7 +200,7 @@ class reaction_manager {
             }
 
             $result[] = [
-                "postid" => (int) $postid,
+                "postid" => (int)$postid,
                 "canreact" => $canreact,
                 "reactions" => $reactions,
             ];
@@ -226,12 +226,12 @@ class reaction_manager {
         }
 
         $allowself = get_config("local_forumreactions", "allowself");
-        if ($allowself !== false && empty($allowself) && (int) $post->userid === $userid) {
+        if ($allowself !== false && empty($allowself) && (int)$post->userid === $userid) {
             throw new moodle_exception("selfreactiondisabled", "local_forumreactions");
         }
 
         $params = [
-            "postid" => (int) $post->id,
+            "postid" => (int)$post->id,
             "userid" => $userid,
             "reaction" => $reaction,
         ];
@@ -245,15 +245,15 @@ class reaction_manager {
         $allowmultiple = get_config("local_forumreactions", "allowmultiple");
         if ($allowmultiple !== false && empty($allowmultiple)) {
             $DB->delete_records(self::TABLE, [
-                "postid" => (int) $post->id,
+                "postid" => (int)$post->id,
                 "userid" => $userid,
             ]);
         }
 
-        $record = (object) [
-            "forumid" => (int) $forum->id,
-            "discussionid" => (int) $post->discussion,
-            "postid" => (int) $post->id,
+        $record = (object)[
+            "forumid" => (int)$forum->id,
+            "discussionid" => (int)$post->discussion,
+            "postid" => (int)$post->id,
             "userid" => $userid,
             "reaction" => $reaction,
             "timecreated" => time(),

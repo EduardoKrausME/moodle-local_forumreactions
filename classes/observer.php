@@ -24,6 +24,9 @@
 
 namespace local_forumreactions;
 
+use core\event\course_module_deleted;
+use mod_forum\event\post_deleted;
+
 /**
  * Deletes orphaned reaction records when forum content is removed.
  */
@@ -31,29 +34,29 @@ class observer {
     /**
      * Delete reactions associated with a deleted forum post.
      *
-     * @param \mod_forum\event\post_deleted $event Forum post deleted event.
+     * @param post_deleted $event Forum post deleted event.
      */
-    public static function post_deleted(\mod_forum\event\post_deleted $event): void {
+    public static function post_deleted(post_deleted $event): void {
         global $DB;
 
         if ($event->objectid) {
-            $DB->delete_records(reaction_manager::TABLE, ["postid" => (int) $event->objectid]);
+            $DB->delete_records(reaction_manager::TABLE, ["postid" => (int)$event->objectid]);
         }
     }
 
     /**
      * Delete reactions when an entire forum activity is removed.
      *
-     * @param \core\event\course_module_deleted $event Course module deleted event.
+     * @param course_module_deleted $event Course module deleted event.
      */
-    public static function course_module_deleted(\core\event\course_module_deleted $event): void {
+    public static function course_module_deleted(course_module_deleted $event): void {
         global $DB;
 
         if (($event->other["modulename"] ?? "") !== "forum") {
             return;
         }
 
-        $forumid = (int) ($event->other["instanceid"] ?? 0);
+        $forumid = (int)($event->other["instanceid"] ?? 0);
         if ($forumid > 0) {
             $DB->delete_records(reaction_manager::TABLE, ["forumid" => $forumid]);
         }

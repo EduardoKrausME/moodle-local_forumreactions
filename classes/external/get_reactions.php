@@ -29,6 +29,7 @@ use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;
+use invalid_parameter_exception;
 use local_forumreactions\reaction_manager;
 
 /**
@@ -67,7 +68,7 @@ class get_reactions extends external_api {
         ]);
 
         if (count($params["postids"]) > 200) {
-            throw new \invalid_parameter_exception("A maximum of 200 posts can be requested at once.");
+            throw new invalid_parameter_exception("A maximum of 200 posts can be requested at once.");
         }
 
         [$cm, $course, $forum, $context] = reaction_manager::get_forum_data($params["cmid"]);
@@ -78,7 +79,7 @@ class get_reactions extends external_api {
         $posts = reaction_manager::get_visible_posts($forum, $cm, $params["postids"]);
         $canreact = has_capability("local/forumreactions:react", $context) && !isguestuser();
 
-        return reaction_manager::get_summary($posts, (int) $USER->id, $canreact);
+        return reaction_manager::get_summary($posts, (int)$USER->id, $canreact);
     }
 
     /**

@@ -21,7 +21,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(["jquery", "core/ajax", "core/templates", "core/notification"], function($, Ajax, Templates, Notification) {
+define(["jquery", "core/ajax", "core/templates", "core/notification"], function ($, Ajax, Templates, Notification) {
     const SELECTOR_POST = 'article[data-region="post"][data-post-id]';
     const SELECTOR_REACTIONS = '[data-region="forum-reactions"]';
     const SELECTOR_ACTIONS = '[data-region="post-actions-container"]';
@@ -29,9 +29,9 @@ define(["jquery", "core/ajax", "core/templates", "core/notification"], function(
     let loading = false;
     let queued = false;
 
-    const getPostIds = function() {
+    const getPostIds = function () {
         const ids = [];
-        $(SELECTOR_POST).each(function() {
+        $(SELECTOR_POST).each(function () {
             const postId = parseInt($(this).attr("data-post-id"), 10);
             if (postId && !$(this).find(SELECTOR_REACTIONS).length) {
                 ids.push(postId);
@@ -40,11 +40,11 @@ define(["jquery", "core/ajax", "core/templates", "core/notification"], function(
         return [...new Set(ids)].slice(0, 200);
     };
 
-    const getPostElement = function(postId) {
+    const getPostElement = function (postId) {
         return $(SELECTOR_POST).filter('[data-post-id="' + postId + '"]').first();
     };
 
-    const insertRendered = function(postId, html, js) {
+    const insertRendered = function (postId, html, js) {
         const $post = getPostElement(postId);
         if (!$post.length || $post.find(SELECTOR_REACTIONS).length) {
             return;
@@ -65,17 +65,17 @@ define(["jquery", "core/ajax", "core/templates", "core/notification"], function(
         Templates.runTemplateJS(js);
     };
 
-    const renderPost = function(data, replace) {
+    const renderPost = function (data, replace) {
         const templateData = {
             postid: data.postid,
             canreact: data.canreact,
-            reactions: data.reactions.map(function(reaction) {
+            reactions: data.reactions.map(function (reaction) {
                 return Object.assign({}, reaction, {canreact: data.canreact});
             }),
         };
 
         return Templates.renderForPromise("local_forumreactions/reactions", templateData)
-            .then(function(result) {
+            .then(function (result) {
                 if (replace) {
                     const $existing = getPostElement(data.postid).find(SELECTOR_REACTIONS).first();
                     if ($existing.length) {
@@ -88,7 +88,7 @@ define(["jquery", "core/ajax", "core/templates", "core/notification"], function(
             });
     };
 
-    const load = function() {
+    const load = function () {
         if (loading) {
             queued = true;
             return;
@@ -111,15 +111,15 @@ define(["jquery", "core/ajax", "core/templates", "core/notification"], function(
         }]);
 
         requests[0]
-            .then(function(posts) {
-                return Promise.all(posts.map(function(post) {
+            .then(function (posts) {
+                return Promise.all(posts.map(function (post) {
                     return renderPost(post, false);
                 }));
             })
             .catch(Notification.exception)
     };
 
-    const toggle = function($button) {
+    const toggle = function ($button) {
         const $container = $button.closest(SELECTOR_REACTIONS);
         const postId = parseInt($container.attr("data-post-id"), 10);
         const reaction = $button.attr("data-reaction");
@@ -139,20 +139,20 @@ define(["jquery", "core/ajax", "core/templates", "core/notification"], function(
         }]);
 
         requests[0]
-            .then(function(post) {
+            .then(function (post) {
                 return renderPost(post, true);
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 $container.find("button").prop("disabled", false);
                 Notification.exception(error);
             });
     };
 
-    const observe = function() {
-        const observer = new MutationObserver(function(mutations) {
+    const observe = function () {
+        const observer = new MutationObserver(function (mutations) {
             let shouldLoad = false;
-            mutations.forEach(function(mutation) {
-                mutation.addedNodes.forEach(function(node) {
+            mutations.forEach(function (mutation) {
+                mutation.addedNodes.forEach(function (node) {
                     if (node.nodeType !== Node.ELEMENT_NODE) {
                         return;
                     }
@@ -168,10 +168,10 @@ define(["jquery", "core/ajax", "core/templates", "core/notification"], function(
         observer.observe(document.body, {childList: true, subtree: true});
     };
 
-    const init = function(options) {
+    const init = function (options) {
         config = options;
         console.log(config);
-        $(document).on("click", '[data-action="toggle-reaction"]', function(event) {
+        $(document).on("click", '[data-action="toggle-reaction"]', function (event) {
             event.preventDefault();
             toggle($(this));
         });

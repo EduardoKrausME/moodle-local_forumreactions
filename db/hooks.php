@@ -22,12 +22,13 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+use core\hook\output\before_standard_top_of_body_html_generation;
+use local_forumreactions\local\hook_callbacks;
 
 $callbacks = [
     [
-        "hook" => \core\hook\output\before_standard_top_of_body_html_generation::class,
-        "callback" => [\local_forumreactions\local\hook_callbacks::class, "before_standard_top_of_body_html"],
+        "hook" => before_standard_top_of_body_html_generation::class,
+        "callback" => [hook_callbacks::class, "before_standard_top_of_body_html"],
         "priority" => 100,
     ],
 ];
