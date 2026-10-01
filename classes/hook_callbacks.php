@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_forumreactions\local;
+namespace local_forumreactions;
 
 use core\hook\output\before_standard_top_of_body_html_generation;
 

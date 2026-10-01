@@ -23,7 +23,7 @@
  */
 
 use core\hook\output\before_standard_top_of_body_html_generation;
-use local_forumreactions\local\hook_callbacks;
+use local_forumreactions\hook_callbacks;
 
 $callbacks = [
     [
