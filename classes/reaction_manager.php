@@ -32,10 +32,14 @@ use stdClass;
  * Manages enabled reactions, visibility checks, summaries and reaction changes.
  */
 class reaction_manager {
-    /** Database table storing reactions. */
+    /**
+     * Database table storing reactions.
+     */
     public const TABLE = "local_forumreactions_reactions";
 
-    /** Supported reactions and their language string keys. */
+    /**
+     * Supported reactions and their language string keys.
+     */
     private const REACTIONS = [
         "like" => ["emoji" => "👍", "string" => "reaction_like"],
         "love" => ["emoji" => "❤️", "string" => "reaction_love"],

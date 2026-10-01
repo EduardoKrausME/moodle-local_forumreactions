@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/forumreactions/db" VERSION="2026091401" COMMENT="XMLDB file for local_forumreactions"
+<XMLDB PATH="local/forumreactions/db" VERSION="20260914" COMMENT="XMLDB file for local_forumreactions"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
     <TABLES>
