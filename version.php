@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+$plugin->version = 2026101900;
+$plugin->release = "1.0.3";
 $plugin->component = "local_forumreactions";
-$plugin->version = 2026100500;
-$plugin->release = "1.0.2";
 $plugin->requires = 2024100700;
 $plugin->maturity = MATURITY_STABLE;
